@@ -1,0 +1,62 @@
+6(a)
+echo "Enter a number:"
+read num
+fact=1
+i=1
+
+while [ $i -le $num ]
+do
+  fact=$((fact * i))
+  i=$((i + 1))
+done
+
+echo "Factorial of $num is: $fact"
+
+6(b)
+#include <stdio.h>
+
+int main() {
+    int n, frames, i, j, k, page_faults = 0, index = 0, found;
+
+    printf("Enter the number of pages: ");
+    scanf("%d", &n);
+
+    int pages[n];
+    printf("Enter the reference string:\n");
+    for(i = 0; i < n; i++) {
+        scanf("%d", &pages[i]);
+    }
+
+    printf("Enter the number of frames: ");
+    scanf("%d", &frames);
+
+    int frame[frames];
+    for(i = 0; i < frames; i++) {
+        frame[i] = -1;
+    }
+
+    for(i = 0; i < n; i++) {
+        found = 0;
+        for(j = 0; j < frames; j++) {
+            if(frame[j] == pages[i]) {
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found) {
+            frame[index] = pages[i];
+            index = (index + 1) % frames;
+            page_faults++;
+        }
+
+        printf("Frames after accessing %d: ", pages[i]);
+        for(k = 0; k < frames; k++) {
+            printf("%d ", frame[k]);
+        }
+        printf("\n");
+    }
+
+    printf("\nTotal Page Faults = %d\n", page_faults);
+    return 0;
+}
