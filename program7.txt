@@ -1,0 +1,28 @@
+7(a)
+#!/bin/bash
+
+echo "Current Date and Time:"
+date "+%d-%m-%Y %H:%M:%S"
+
+7(b)
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n = 8;
+    int requests[] = {98, 183, 41, 122, 14, 124, 65, 67};
+    int head = 53, total_movement = 0;
+
+    printf("Request order: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", requests[i]);
+    printf("\nInitial head position: %d\n", head);
+
+    for (int i = 0; i < n; i++) {
+        total_movement += abs(requests[i] - head); // Calculate movement
+        head = requests[i]; // Move head to the current request
+    }
+
+    printf("Total head movement: %d cylinders\n", total_movement);
+    return 0;
+}
