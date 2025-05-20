@@ -1,0 +1,48 @@
+[19/05, 11:58 pm] Gokul: 4a
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid;
+
+    pid = getpid();  // System call to get process ID
+
+    printf("Process ID (PID): %d\n", pid);
+
+    return 0;
+}
+[19/05, 11:58 pm] Gokul: 4b
+#!/bin/bash
+
+echo "Enter temperature in Celsius:"
+read celsius
+
+fahrenheit=$(echo "scale=2; ($celsius * 9 / 5) + 32" | bc)
+
+echo "$celsius Celsius = $fahrenheit Fahrenheit"
+[19/05, 11:58 pm] Gokul: 4c
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+// Function to be executed by thread
+void* threadFunction(void* arg) {
+    printf("Thread is running... Thread ID: %ld\n", pthread_self());
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t thread;
+
+    // Create a thread
+    if (pthread_create(&thread, NULL, threadFunction, NULL) != 0) {
+        printf("Failed to create thread\n");
+        return 1;
+    }
+
+    // Wait for the thread to complete
+    pthread_join(thread, NULL);
+
+    printf("Thread has finished execution.\n");
+    return 0;
+}
