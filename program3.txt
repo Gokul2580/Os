@@ -1,0 +1,55 @@
+[19/05, 11:58 pm] Gokul: 3a
+
+rmdir myfolder
+rm myfile.txt
+
+[19/05, 11:58 pm] Gokul: 3b
+
+#!/bin/bash
+echo "Enter a number:"
+read num
+flag=0
+
+if [ $num -le 1 ]; then
+    echo "Not a prime number"
+    exit
+fi
+
+for (( i=2; i<num; i++ ))
+do
+  if [ $((num % i)) -eq 0 ]; then
+    flag=1
+    break
+  fi
+done
+
+if [ $flag -eq 0 ]; then
+  echo "$num is a Prime number"
+else
+  echo "$num is Not a Prime number"
+fi
+[19/05, 11:58 pm] Gokul: 3c
+#include <stdio.h>
+
+int main() {
+    int pages, frames;
+    printf("Enter number of pages: ");
+    scanf("%d", &pages);
+    printf("Enter number of frames: ");
+    scanf("%d", &frames);
+
+    int page[pages], frame[frames];
+    printf("Enter the page numbers:\n");
+    for (int i = 0; i < pages; i++) {
+        scanf("%d", &page[i]);
+    }
+
+    printf("\nPage Table:\n");
+    printf("Page Number\tFrame Number\n");
+    for (int i = 0; i < pages && i < frames; i++) {
+        frame[i] = page[i];
+        printf("%d\t\t%d\n", page[i], i);
+    }
+
+    return 0;
+}
