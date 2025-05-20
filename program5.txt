@@ -1,0 +1,100 @@
+[19/05, 11:58 pm] Gokul: $ date
+Mon May 19 14:35:21 IST 2025
+[19/05, 11:58 pm] Gokul: $ cal        # Current month's calendar
+$ cal 12 2025  # Calendar of December 2025
+[19/05, 11:58 pm] Gokul: $ cat file.txt      # Display content of file.txt
+$ cat > new.txt     # Create a file and input text
+$ cat file1 file2   # Display contents of both files
+[19/05, 11:58 pm] Gokul: 5b
+#!/bin/bash
+
+# Shell Script to calculate the Area of a Triangle using Heron's Formula
+
+echo "Enter the lengths of the three sides of the triangle:"
+read a
+read b
+read c
+
+# Calculate semi-perimeter
+s=$(echo "scale=2; ($a + $b + $c) / 2" | bc)
+
+# Calculate area using Heron's formula
+area=$(echo "scale=2; sqrt($s*($s - $a)*($s - $b)*($s - $c))" | bc -l)
+
+echo "Area of the triangle is: $area"
+[19/05, 11:58 pm] Gokul: 5c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define P 5 // Number of processes
+#define R 3 // Number of resources
+
+int main() {
+    int allocation[P][R] = {
+        {0, 1, 0},
+        {2, 0, 0},
+        {3, 0, 2},
+        {2, 1, 1},
+        {0, 0, 2}
+    };
+
+    int max[P][R] = {
+        {7, 5, 3},
+        {3, 2, 2},
+        {9, 0, 2},
+        {2, 2, 2},
+        {4, 3, 3}
+    };
+
+    int available[R] = {3, 3, 2};
+
+    int need[P][R], finish[P];
+    for (int i = 0; i < P; i++) {
+        finish[i] = 0;
+        for (int j = 0; j < R; j++) {
+            need[i][j] = max[i][j] - allocation[i][j];
+        }
+    }
+
+    int count = 0;
+    while (count < P) {
+        bool found = false;
+        for (int p = 0; p < P; p++) {
+            if (!finish[p]) {
+                bool canAllocate = true;
+                for (int j = 0; j < R; j++) {
+                    if (need[p][j] > available[j]) {
+                        canAllocate = false;
+                        break;
+                    }
+                }
+
+                if (canAllocate) {
+                    for (int k = 0; k < R; k++)
+                        available[k] += allocation[p][k];
+
+                    finish[p] = 1;
+                    found = true;
+                    count++;
+                }
+            }
+        }
+
+        if (!found) {
+            break;
+        }
+    }
+
+    bool deadlock = false;
+    for (int i = 0; i < P; i++) {
+        if (!finish[i]) {
+            deadlock = true;
+            printf("Process %d is in deadlock.\n", i);
+        }
+    }
+
+    if (!deadlock)
+        printf("No deadlock detected.\n");
+
+    return 0;
+}
