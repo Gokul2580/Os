@@ -1,0 +1,81 @@
+8(a)
+#!/bin/bash
+
+echo "Enter the number of terms:"
+read n
+
+a=0
+b=1
+
+echo "Fibonacci Series up to $n terms:"
+
+for (( i=0; i<n; i++ ))
+do
+    echo -n "$a "
+    fn=$((a + b))
+    a=$b
+    b=$fn
+done
+
+8(b)
+#include <stdio.h>
+
+struct Process {
+    int pid, at, bt, ct, tat, wt, done;
+};
+
+int main() {
+    int n, time = 0, completed = 0;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    struct Process p[n];
+
+    // Input AT and BT
+    printf("Enter Arrival Time and Burst Time (AT BT) for each process:\n");
+    for (int i = 0; i < n; i++) {
+        p[i].pid = i;
+        printf("P%d: ", i);
+        scanf("%d %d", &p[i].at, &p[i].bt);
+        p[i].done = 0;
+    }
+
+    // SJF scheduling
+    while (completed < n) {
+        int min_bt = 9999, idx = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (!p[i].done && p[i].at <= time && p[i].bt < min_bt) {
+                min_bt = p[i].bt;
+                idx = i;
+            }
+        }
+
+        if (idx != -1) {
+            p[idx].ct = time + p[idx].bt;
+            p[idx].tat = p[idx].ct - p[idx].at;
+            p[idx].wt = p[idx].tat - p[idx].bt;
+            time = p[idx].ct;
+            p[idx].done = 1;
+            completed++;
+        } else {
+            time++;
+        }
+    }
+
+    float total_wt = 0, total_tat = 0;
+
+    // Display table
+    printf("\nP\tAT\tBT\tCT\tTAT\tWT\n");
+    for (int i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\n", p[i].pid, p[i].at, p[i].bt, p[i].ct, p[i].tat, p[i].wt);
+        total_tat += p[i].tat;
+        total_wt += p[i].wt;
+    }
+
+    printf("\nAverage Turnaround Time = %.2f", total_tat / n);
+    printf("\nAverage Waiting Time = %.2f\n", total_wt / n);
+
+    return 0;
+}
