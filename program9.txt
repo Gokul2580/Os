@@ -1,0 +1,73 @@
+9(a)
+#!/bin/bash
+
+echo "Enter a number:"
+read num
+
+if [ $num -gt 0 ]; then
+    echo "The number is Positive."
+elif [ $num -lt 0 ]; then
+    echo "The number is Negative."
+else
+    echo "The number is Zero."
+fi
+
+9(b)
+#include <stdio.h>
+#include <stdlib.h>
+
+int mutex = 1;
+int full = 0;
+int empty = 5; // Buffer size
+int item = 0;
+
+int wait(int s) {
+    return --s;
+}
+
+int signal(int s) {
+    return ++s;
+}
+
+void producer() {
+    mutex = wait(mutex);
+    empty = wait(empty);
+    full = signal(full);
+    item++;
+    printf("Producer produced item %d\n", item);
+    mutex = signal(mutex);
+}
+
+void consumer() {
+    mutex = wait(mutex);
+    full = wait(full);
+    empty = signal(empty);
+    printf("Consumer consumed item %d\n", item);
+    item--;
+    mutex = signal(mutex);
+}
+
+int main() {
+    int choice;
+    while (1) {
+        printf("\n1. Produce\n2. Consume\n3. Exit\nEnter choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                if (mutex == 1 && empty != 0)
+                    producer();
+                else
+                    printf("Buffer is Full!\n");
+                break;
+            case 2:
+                if (mutex == 1 && full != 0)
+                    consumer();
+                else
+                    printf("Buffer is Empty!\n");
+                break;
+            case 3:
+                exit(0);
+        }
+    }
+    return 0;
+}
